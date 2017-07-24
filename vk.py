@@ -20,11 +20,11 @@ def controlfunc(char, string):
 	# This is why I like switch/case statements
 	if char is "s":
 		return True, string
-	elif char is "n":
+	if char is "n":
 		return True, ""
-	elif char is "c":
+	if char is "c":
 		return False, string[:-1]
-	elif char is "m":
+	if char is "m":
 		sense.show_message(string, scroll_speed = 0.04)
 		return False, string
 	return False, string
