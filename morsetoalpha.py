@@ -147,7 +147,7 @@ def morsetype():
 						sense.clear()
 						lm = ""
 					else:
-						print ("erro")
+						print("erro")
 						sense.show_letter("X", [255,0,0])
 						sleep(2)
 						sense.clear()
