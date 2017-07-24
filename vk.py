@@ -5,15 +5,14 @@ sense = SenseHat()
 
 # Lowercase characters are control
 table = [
-	"ABCDEFG",
-	"HIJKLM",
-	"NOPQRST",
-	"UVWXYZ",
+	"ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+	"HIJKLMNOPQRSTUVWXYZABCDEFG",
+	"NOPQRSTUVWXYZABCDEFGHIJKLM",
+	"UVWXYZABCDEFGHIJKLMNOPQRST",
 	"0123456789",
 	" .,?'!/():;=+-_\"$@",
 	# Sim, Não, Corrigir, Mensagem
-	"sncm" # Localised to Portuguese, change to "yncm" for english
-]
+	"sncm" ] # Localised to Portuguese, change to "yncm" for english
 controlchars = list(string.ascii_lowercase)
 
 # Localised to Portuguese, change to "y", "n", "c" and "m" for english
@@ -21,12 +20,12 @@ def controlfunc(char, string):
 	# This is why I like switch/case statements
 	if char is "s":
 		return True, string
-	elif char is "n":
+	if char is "n":
 		return True, ""
-	elif char is "c":
+	if char is "c":
 		return False, string[:-1]
-	elif char is "m":
-		sense.show_message(string)
+	if char is "m":
+		sense.show_message(string, scroll_speed = 0.04)
 		return False, string
 	return False, string
 
@@ -53,22 +52,23 @@ def curmovemiddle(cursor, string):
 	return quit, string
 
 curmove = {
-	"left": curmoveleft,
-	"right": curmoveright,
-	"up": curmoveup,
-	"down": curmovedown,
-	"middle": curmovemiddle
-}
+	  "left"   : curmoveleft
+	, "right"  : curmoveright
+	, "up"     : curmoveup
+	, "down"   : curmovedown
+	, "middle" : curmovemiddle }
 
 def vk():
 	string = ""
 	cursor = [0, 0]
-	flush = True
+
+	# Flush events
+	sense.stick.get_events()
+
 	sense.show_letter(table[0][0])
+
 	while True:
-		event = sense.stick.wait_for_event(flush)
-		if flush:
-			flush = False
+		event = sense.stick.wait_for_event()
 		if event.action is ACTION_PRESSED or event.action is ACTION_HELD:
 			quit, string = curmove[event.direction](cursor, string)
 			if quit:
@@ -77,5 +77,3 @@ def vk():
 			row = cursor[1] % len(table)
 			col = cursor[0] % len(table[row])
 			sense.show_letter(table[row][col])
-
-#print(vk())
