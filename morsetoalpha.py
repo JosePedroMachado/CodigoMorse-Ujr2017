@@ -125,10 +125,8 @@ def morsetype():
 						sense.clear()
 						lm = ""
 
-				if event.direction=="right":
+				if event.direction is "right":
 					fr += espaco
-					#print(espaco)
-					#sense.show_message(espaco, scroll_speed = 0.04)
 
 			if event.action is ACTION_RELEASED and tempo_comeca is not 0:
 				if process_time() < tempo_comeca + 1: 
