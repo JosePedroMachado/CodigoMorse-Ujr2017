@@ -21,7 +21,7 @@ happyface = [
 	k,k,k,k,k,k,k,k,
 	k,g,k,k,k,k,g,k,
 	k,k,g,g,g,g,k,k,
-	k,k,k,k,k,k,k,k]
+	k,k,k,k,k,k,k,k ]
 
 normalface = [
 	k,k,k,k,k,k,k,k,
@@ -31,7 +31,7 @@ normalface = [
 	k,k,k,k,k,k,k,k,
 	k,k,k,k,k,k,k,k,
 	k,k,y,y,y,y,k,k,
-	k,k,k,k,k,k,k,k]
+	k,k,k,k,k,k,k,k ]
 
 sadface = [
 	k,k,k,k,k,k,k,k,
@@ -41,7 +41,7 @@ sadface = [
 	k,k,k,k,k,k,k,k,
 	k,k,k,k,k,k,k,k,
 	k,k,r,r,r,r,k,k,
-	k,r,k,k,k,k,r,k]
+	k,r,k,k,k,k,r,k ]
 
 morse = {
 	  ".-"   : "A"
@@ -113,7 +113,7 @@ morse = {
 
 	, "--...--" : "*1 happy face"
 	, "-.....-" : "*2 normal face"
-	, "-.---.-" : "*3 sad face"}
+	, "-.---.-" : "*3 sad face" }
 
 def morsetype():
 	lm = ""

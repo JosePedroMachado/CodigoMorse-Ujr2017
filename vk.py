@@ -12,7 +12,7 @@ table = [
 	"0123456789",
 	" .,?'!/():;=+-_\"$@",
 	# Sim, Não, Corrigir, Mensagem
-	"sncm"] # Localised to Portuguese, change to "yncm" for english
+	"sncm" ] # Localised to Portuguese, change to "yncm" for english
 controlchars = list(string.ascii_lowercase)
 
 # Localised to Portuguese, change to "y", "n", "c" and "m" for english
@@ -52,11 +52,11 @@ def curmovemiddle(cursor, string):
 	return quit, string
 
 curmove = {
-	"left": curmoveleft,
-	"right": curmoveright,
-	"up": curmoveup,
-	"down": curmovedown,
-	"middle": curmovemiddle}
+	  "left"   : curmoveleft
+	, "right"  : curmoveright
+	, "up"     : curmoveup
+	, "down"   : curmovedown
+	, "middle" : curmovemiddle }
 
 def vk():
 	string = ""

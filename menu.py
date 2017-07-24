@@ -27,11 +27,11 @@ def select(cursor, event):
 	return quit, cursor
 
 menuact = {
-	"left": prev,
-	"right": next,
-	"up": prev,
-	"down": next,
-	"middle": select}
+	  "left"   : prev
+	, "right"  : next
+	, "up"     : prev
+	, "down"   : next
+	, "middle" : select }
 
 def menu():
 	cursor = 0
