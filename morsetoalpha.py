@@ -111,9 +111,9 @@ morse = {
 	, "...-."     : "|SN|"
 	, "...---..." : "|SOS|"
 
-	, "--...--" : "*1happyface"
-	, "-.....-" : "*2normalface"
-	, "-.---.-" : "*3sadface"}
+	, "--...--" : "*1 happy face"
+	, "-.....-" : "*2 normal face"
+	, "-.---.-" : "*3 sad face"}
 
 def morsetype():
 	lm = ""
@@ -148,7 +148,7 @@ def morsetype():
 						lm = ""
 					else:
 						print ("erro")
-						sense.show_letter("X",[255,0,0])
+						sense.show_letter("X", [255,0,0])
 						sleep(2)
 						sense.clear()
 						lm = ""
