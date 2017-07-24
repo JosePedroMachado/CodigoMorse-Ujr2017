@@ -1,2 +1,0 @@
-def morse(string):
-	return string.replace("A", ".-").replace("B", "-...").replace("C", "-.-.").replace("D", "-..").replace("E", ".").replace().replace().replace().replace().replace().replace().replace().replace().replace().replace().replace().replace().replace().replace().replace().replace().replace().replace().replace().replace().replace().replace().replace().replace().replace().replace().replace().replace().replace().replace().replace()
