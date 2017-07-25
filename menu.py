@@ -3,11 +3,11 @@ from subprocess import Popen
 from vk import *
 from morsetoalpha import *
 
-historico = '/home/pi/history.txt'
+histfile = "/home/pi/historico.txt"
 sense = SenseHat()
 
-menuentries = ["T", "M", "S","H"]
-menuentrieslong = ["Teclado", "Morse", "Sair","Historico"]
+menuentries = ["T", "M", "H", "S"]
+menuentrieslong = ["Teclado", "Morse", "Historico", "Sair"]
 
 def next(cursor, event):
 	return False, cursor + 1
@@ -25,13 +25,13 @@ def select(cursor, event):
 		if cursor % len(menuentries) is 1:
 			morsetype()
 		if cursor % len(menuentries) is 2:
-			quit = True
-		if cursor % len(menuentries) is 3:
-			Popen(["leafpad", historico])
+			Popen(["leafpad", histfile])
 			#file = open(historico,'r')
 			#sense.show_message(file.read(), scroll_speed = 0.04)
 			#print(file.read())
 			#file.close()
+		if cursor % len(menuentries) is 3:
+			quit = True
 
 	return quit, cursor
 
@@ -44,15 +44,16 @@ menuact = {
 
 def menu():
 	cursor = 0
+	event = None
 	quit = False
 
-	sense.show_message(menuentrieslong[0], scroll_speed = 0.04)
-
 	while True:
-		sense.show_letter(menuentries[cursor % len(menuentries)])
-
 		# Flush events
 		sense.stick.get_events()
+
+		if event is None or event.action is ACTION_PRESSED:
+			sense.show_message(menuentrieslong[cursor % len(menuentrieslong)], scroll_speed = 0.04)
+			sense.show_letter(menuentries[cursor % len(menuentries)])
 
 		event = sense.stick.wait_for_event()
 		if event.action is ACTION_PRESSED or event.action is ACTION_HELD:
@@ -61,8 +62,5 @@ def menu():
 		if quit:
 			sense.clear()
 			return
-
-		if event.action is ACTION_PRESSED:
-			sense.show_message(menuentrieslong[cursor % len(menuentrieslong)], scroll_speed = 0.04)
 
 menu()

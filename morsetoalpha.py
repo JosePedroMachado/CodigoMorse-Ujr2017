@@ -1,6 +1,8 @@
 from sense_hat import SenseHat, ACTION_PRESSED, ACTION_RELEASED
-from subprocess import call
+
+from subprocess import Popen
 from time import sleep, process_time
+
 import smtplib
 from getpass import getpass
 from smtplib import SMTP_SSL
@@ -12,8 +14,9 @@ sense = SenseHat()
 espaco = " "
 ponto = "."
 linha = "-"
-login, password = 'hackatonmorse@gmail.com', '...---...'
+login, password = "hackatonmorse@gmail.com", "...---..."
 recipients = [login]
+histfile = "/home/pi/historico.txt"
 
 r = [255,0,0]
 y = [0,255,255]
@@ -119,14 +122,13 @@ morse = {
 	, "...-."     : "|SN|"
 	, "...---..." : "|SOS|"
 
-	, "--...--" : "*1 happy face"
-	, "-.....-" : "*2 normal face"
-	, "-.---.-" : "*3 sad face" }
+	, "--...--" : "*1"
+	, "-.....-" : "*2"
+	, "-.---.-" : "*3" }
 
 def morsetype():
 	lm = ""
 	fr = ""
-	historico=""
 	tempo_comeca = 0
 	sai = False
 
@@ -166,40 +168,47 @@ def morsetype():
 				if process_time() < tempo_comeca + 1: 
 					if event.direction is "up":
 						print(fr)
-						historico += fr
 						sense.show_message(fr, scroll_speed = 0.04)
-						with open('history.txt', 'a') as f:
-							f.write(historico +"\n")
+						with open(fr, "a") as f:
+							f.write(fr + "\n")
+							f.close()
+
 					if event.direction is "middle":
 						lm += ponto
 						print(lm)
+
 					if event.direction is "down":
 						lm += linha
 						print(lm)
+
 					if event.direction is "right":
 						fr += espaco
 				else:
 					if event.direction is "up":
-						call(["espeak", "-s", "100", fr])
+						Popen(["espeak", "-s", "100", fr])
+
 					if event.direction is "middle":
 						fr = ""
 						lm = ""
 						sense.show_message("Apagado", scroll_speed = 0.04)
+
 					if event.direction is "down":
 						sai = True
 						break
+
 					if event.direction is "right":
 						message = fr
 						msg = MIMEText(message, 'plain', 'utf-8')
 						msg['Subject'] = Header('Mensagem do RPi', 'utf-8')
-						msg['From'] = 'My rpi <hackatonmorse@gmail.com>'
+						msg['From'] = 'RPi <hackatonmorse@gmail.com>'
 						msg['To'] = 'hackatonmorse@gmail.com'
 
 						s = SMTP_SSL('smtp.gmail.com', 465)
 						s.set_debuglevel(1)
-						s.login(login, '...---...')
+						s.login(login, password)
 						s.sendmail(msg['From'], recipients, msg.as_string())
 						s.quit()
+
 				tempo_comeca = 0
 
 
