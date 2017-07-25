@@ -231,7 +231,6 @@ def morsetype():
 						msg['To'] = 'hackatonmorse@gmail.com'
 
 						s = SMTP_SSL('smtp.gmail.com', 465)
-						s.set_debuglevel(1)
 						s.login(login, password)
 						s.sendmail(msg['From'], recipients, msg.as_string())
 						s.quit()

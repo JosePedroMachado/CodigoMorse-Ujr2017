@@ -2,10 +2,19 @@ from sense_hat import SenseHat, ACTION_PRESSED, ACTION_HELD
 from subprocess import Popen
 from time import sleep
 import string
+import smtplib
+from getpass import getpass
+from smtplib import SMTP_SSL
+from email.header import Header
+from email import encoders
+from email.mime.text import MIMEText
 
 sense = SenseHat()
 
 histfile = "/home/pi/historico.txt"
+
+login, password = "hackatonmorse@gmail.com", "...---..."
+recipients = [login]
 
 # Lowercase characters are control
 table = [
@@ -15,11 +24,11 @@ table = [
 	"UVWXYZABCDEFGHIJKLMNOPQRST",
 	"0123456789",
 	" .,?'!/():;=+-_\"$@",
-	# Sim, Não, Corrigir, Mensagem, Falar
-	"sncmf" ] # Localised to Portuguese, change to "yncms" for english
+	# Sim, Não, Corrigir, Mensagem, Falar, Email
+	"sncmfe" ] # Localised to Portuguese, change to "yncmse" for english
 controlchars = list(string.ascii_lowercase)
 
-# Localised to Portuguese, change to "y", "n", "c", "m" and "s" for english
+# Localised to Portuguese, change to "y", "n", "c", "m", "s" and "e" for english
 def ctrls(string):
 	with open(histfile, "a") as file:
 		file.write(string + "\n")
@@ -35,13 +44,24 @@ def ctrlm(string):
 def ctrlf(string):
 	Popen(["espeak", "-s", "100", string])
 	return False, string
+def ctrle(string):
+	msg = MIMEText(string, 'plain', 'utf-8')
+	msg['Subject'] = Header('Mensagem do RPi', 'utf-8')
+	msg['From'] = 'RPi <hackatonmorse@gmail.com>'
+	msg['To'] = 'hackatonmorse@gmail.com'
+	s = SMTP_SSL('smtp.gmail.com', 465)
+	s.login(login, password)
+	s.sendmail(msg['From'], recipients, msg.as_string())
+	s.quit()
+	return False, string
 
 ctrl = {
 	  "s" : ctrls
 	, "n" : ctrln
 	, "c" : ctrlc
 	, "m" : ctrlm
-	, "f" : ctrlf }
+	, "f" : ctrlf
+	, "e" : ctrle }
 
 def curmoveleft(cursor, string):
 	cursor[0] -= 1
