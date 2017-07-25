@@ -58,18 +58,15 @@ def curmovedown(cursor, string):
 def curmovemiddle(cursor, string):
 	row = cursor[1] % len(table)
 	col = cursor[0] % len(table[row])
+	sense.show_letter(" ", back_colour = [255, 255, 255])
+	sleep(.1)
+	sense.clear()
 	if table[row][col] in controlchars:
-		sense.show_letter(" ", back_colour = [255, 255, 255])
-		sleep(.1)
-		sense.clear()
 		quit, string = ctrl[table[row][col]](string)
 	else:
 		quit = False
 		string += table[row][col]
 		print(string)
-		sense.show_letter(" ", back_colour = [255, 255, 255])
-		sleep(.1)
-		sense.clear()
 	return quit, string
 
 curmove = {
