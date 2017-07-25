@@ -210,5 +210,3 @@ def morsetype():
 						s.quit()
 
 				tempo_comeca = 0
-
-
