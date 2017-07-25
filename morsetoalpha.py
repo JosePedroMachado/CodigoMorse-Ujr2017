@@ -138,10 +138,10 @@ def morsetype():
 	while sai is False:
 		for event in sense.stick.get_events():
 			if event.action is ACTION_PRESSED:
-				if event.direction is "up" or event.direction is "middle" or event.direction is "down" or event.direction is "right":
+				if event.direction is "left" or event.direction is "up" or event.direction is "down" or event.direction is "right":
 					tempo_comeca = process_time()
 
-				if event.direction is "left":
+				if event.direction is "middle":
 					if lm in morse:
 						if morse[lm][0] is "*":
 							if morse[lm][1] is "1":
@@ -169,25 +169,25 @@ def morsetype():
 					if event.direction is "up":
 						print(fr)
 						sense.show_message(fr, scroll_speed = 0.04)
-						with open(fr, "a") as f:
+						with open(histfile, "a") as f:
 							f.write(fr + "\n")
 							f.close()
 
-					if event.direction is "middle":
+					if event.direction is "left":
 						lm += ponto
 						print(lm)
 
-					if event.direction is "down":
+					if event.direction is "right":
 						lm += linha
 						print(lm)
 
-					if event.direction is "right":
+					if event.direction is "down":
 						fr += espaco
 				else:
-					if event.direction is "up":
+					if event.direction is "left":
 						Popen(["espeak", "-s", "100", fr])
 
-					if event.direction is "middle":
+					if event.direction is "up":
 						fr = ""
 						lm = ""
 						sense.show_message("Apagado", scroll_speed = 0.04)
