@@ -1,6 +1,8 @@
 from sense_hat import SenseHat
+import pyttsx
 from time import sleep, process_time
 sense=SenseHat()
+engine=pyttsx.init()
 ponto="."
 linha="-"
 
@@ -97,23 +99,31 @@ def morsetype():
 	    for event in sense.stick.get_events():
 
 		    if tempo_comeca is not 0 and event.action is 'released':
-		        if process_time() < tempo_comeca + 2:
-		            lm += ponto
-		            print(lm)
+		        if process_time() < tempo_comeca + 2: 
+		            if event.direction is "middle":
+		                lm += ponto
+		                print(lm)
+		            if event.direction is "up":
+		                print(fr)
+		                sense.show_message((fr))
 		        else:
-		            sense.show_message("Apagado")
-		            fr=""
-		            lm=""
+		            if event.direction is "middle":
+		                sense.show_message("Apagado")
+		                fr=""
+		                lm=""
+		            if event.direction is "up":
+		                engine.say(fr)
+		                engine.runAndWait()
 		        tempo_comeca = 0
 		    
 		    if event.action == 'pressed' and event.direction == 'middle':
 		        tempo_comeca = process_time()
 	
-		    elif  event.action == "pressed" and event.direction == "down":
+		    if  event.action == "pressed" and event.direction == "down":
 		        lm += linha
 		        print(lm)
 		
-		    elif  event.action=="pressed" and event.direction=="left":
+		    if  event.action=="pressed" and event.direction=="left":
 		        if lm in morse:
 		            if morse[lm][0] is "_":
 		                if morse[lm][1] is "1":
@@ -136,13 +146,11 @@ def morsetype():
 		            sense.clear()
 		            lm=""
 		
-		    elif  event.action=="pressed" and event.direction=="right":
+		    if  event.action=="pressed" and event.direction=="right":
 		        fr+="."
 		        print(".")
 		        sense.show_message(("."))
 		        
-		    elif event.action=="pressed" and event.direction=="up":
-		        print(fr)
-		        sense.show_message((fr))
-
+		    if event.action=="pressed" and event.direction=="up":
+		        tempo_comeca = process_time()
 
