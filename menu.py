@@ -7,43 +7,43 @@ from sensores import *
 histfile = "/home/pi/historico.txt"
 sense = SenseHat()
 
-menuentries = ["T", "M", "S", "H","S"]
-menuentrieslong = ["Teclado", "Morse", "Sensores", "Historico","Sair"]
+menuentries = ["T", "M", "S", "H", "S"]
+menuentrieslong = ["Teclado", "Morse", "Sensores", "Historico", "Sair"]
+quitentry = 4
 
 def next(cursor, event):
 	return False, cursor + 1
 def prev(cursor, event):
 	return False, cursor - 1
 
-def select(cursor, event):
-	quit = False
-	file = None
+def readhist():
+	Popen(["leafpad", histfile])
 
+def nop():
+	return
+
+selectact = {
+	  0 : vk
+	, 1 : morsetype
+	, 2 : sensors
+	, 3 : readhist
+	, 4 : nop }
+
+def select(cursor, event):
 	if event.action is ACTION_PRESSED:
 		sense.clear()
-		if cursor % len(menuentries) is 0:
-			print(vk())
-		if cursor % len(menuentries) is 1:
-			morsetype()
-		if cursor % len(menuentries) is 2:
-			sensortype()	
-		if cursor % len(menuentries) is 3:
-			Popen(["leafpad", histfile])
-			#file = open(historico,'r')
-			#sense.show_message(file.read(), scroll_speed = 0.04)
-			#print(file.read())
-			#file.close()			
-		if cursor % len(menuentries) is 4:
-			quit = True
-
-	return quit, cursor
+		num = cursor % len(menuentries)
+		selectact[num]()
+		if num is quitentry:
+			return True, cursor
+	return False, cursor
 
 menuact = {
-	"left": prev,
-	"right": next,
-	"up": prev,
-	"down": next,
-	"middle": select}
+	  "left"   : prev
+	, "right"  : next
+	, "up"     : prev
+	, "down"   : next
+	, "middle" : select }
 
 def menu():
 	cursor = 0
