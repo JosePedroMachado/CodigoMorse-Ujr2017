@@ -1,7 +1,7 @@
 from sense_hat import SenseHat
 sense = SenseHat()
 
-def sensortype():
+def sensors():
 
     t = sense.get_temperature()
     p = sense.get_pressure()
@@ -11,9 +11,5 @@ def sensortype():
     p = round(p, 1)
     h = round(h, 1)
 
-    msg = "Temperatura = {0}, Pressao = {1}, Humidade - {2}".format(t, p, h)
+    msg = "Temperatura = {0} Pressao = {1} Humidade = {2}".format(t, p, h)
     sense.show_message(msg, scroll_speed=0.04)
-
-
-
-
