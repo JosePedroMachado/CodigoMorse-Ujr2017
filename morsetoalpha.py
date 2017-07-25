@@ -1,10 +1,49 @@
-
-
 from sense_hat import SenseHat
 from time import sleep, process_time
 sense=SenseHat()
 ponto="."
 linha="-"
+
+r=[255,0,0]
+y=[0,255,255]
+g=[0,255,0]
+b=[0,0,0]
+br=[100,100,10]
+
+
+happyface=[
+    b,b,b,b,b,b,b,b,
+    b,b,b,b,b,b,b,b,
+    b,g,g,b,b,g,g,b,
+    b,b,b,b,b,b,b,b,
+    b,b,b,b,b,b,b,b,
+    b,g,b,b,b,b,g,b,
+    b,b,g,g,g,g,b,b,
+    b,b,b,b,b,b,b,b
+    ]
+normalface=[
+    b,b,b,b,b,b,b,b,
+    b,b,b,b,b,b,b,b,
+    b,y,y,b,b,y,y,b,
+    b,b,b,b,b,b,b,b,
+    b,b,b,b,b,b,b,b,
+    b,b,b,b,b,b,b,b,
+    b,b,y,y,y,y,b,b,
+    b,b,b,b,b,b,b,b
+    ]
+sadface=[
+    b,b,b,b,b,b,b,b,
+    b,b,b,b,b,b,b,b,
+    b,r,r,b,b,r,r,b,
+    b,b,b,b,b,b,b,b,
+    b,b,b,b,b,b,b,b,
+    b,b,b,b,b,b,b,b,
+    b,b,r,r,r,r,b,b,
+    b,r,b,b,b,b,r,b
+        
+    ]
+
+
 morse={
     ".-": "A",
     "-...":"B"
@@ -41,7 +80,13 @@ morse={
     ,"--...":"7"
     ,"---..":"8"
     ,"----.":"9"
-    ,"-----":"0"}
+    ,"-----":"0"
+    ,".--..":"SOS"
+    ,"-.--.":"_1happyface"
+    ,"--..--":"_2normalface"
+    ,"..--..":"_3sadface"
+    
+    }
 
 def morsetype():
 	lm=""
@@ -70,9 +115,17 @@ def morsetype():
 		
 		    elif  event.action=="pressed" and event.direction=="left":
 		        if lm in morse:
-		            sense.show_letter((morse[lm]))
-		            fr+=(morse[lm])
-		            print(morse[lm])
+		            if morse[lm][0] is "_":
+		                if morse[lm][1] is "1":
+		                    sense.set_pixels((happyface))
+		                if morse[lm][1] is "2":
+		                    sense.set_pixels((normalface))
+		                if morse[lm][1] is "3":
+		                    sense.set_pixels((sadface))
+		            else:
+		                sense.show_message((morse[lm]))
+		                fr+=(morse[lm])
+		                print(morse[lm])
 		            sleep(2)
 		            sense.clear()
 		            lm=""
@@ -91,8 +144,5 @@ def morsetype():
 		    elif event.action=="pressed" and event.direction=="up":
 		        print(fr)
 		        sense.show_message((fr))
-		
-		
-		
-		
+
 
