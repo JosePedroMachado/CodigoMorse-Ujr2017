@@ -1,8 +1,8 @@
 # Hackathon Ideias Inteligentes
 
-### Nome...
+### Codigo Morse
 
-   Descrição...
+   Mandar mensagens do teu RPi
   
 ##### [Vídeo aqui](Demo/video.mp4?raw=true)  
   
