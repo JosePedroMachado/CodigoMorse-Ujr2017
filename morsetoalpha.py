@@ -22,7 +22,28 @@ r = [255,0,0]
 y = [0,255,255]
 g = [0,255,0]
 k = [0,0,0]
+w = [255,255,255]
 
+
+dot = [
+	k,k,k,k,k,k,k,k,
+        k,k,k,k,k,k,k,k,
+        k,k,k,k,k,k,k,k,
+        k,k,k,w,w,k,k,k,
+        k,k,k,w,w,k,k,k,
+        k,k,k,k,k,k,k,k,
+        k,k,k,k,k,k,k,k,
+        k,k,k,k,k,k,k,k,]
+
+line = [
+	k,k,k,k,k,k,k,k,
+        k,k,k,k,k,k,k,k,
+        k,k,k,k,k,k,k,k,
+        k,w,w,w,w,w,w,k,
+        k,w,w,w,w,w,w,k,
+        k,k,k,k,k,k,k,k,
+        k,k,k,k,k,k,k,k,
+        k,k,k,k,k,k,k,k,]
 
 happyface = [
 	k,k,k,k,k,k,k,k,
@@ -176,10 +197,16 @@ def morsetype():
 					if event.direction is "left":
 						lm += ponto
 						print(lm)
+						sense.set_pixels(dot)
+						sleep(0.5)
+						sense.clear()
 
 					if event.direction is "right":
 						lm += linha
 						print(lm)
+						sense.set_pixels(line)
+						sleep(0.5)
+						sense.clear()
 
 					if event.direction is "down":
 						fr += espaco
@@ -210,3 +237,4 @@ def morsetype():
 						s.quit()
 
 				tempo_comeca = 0
+
