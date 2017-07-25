@@ -26,7 +26,7 @@
 |Nome  |Link  |  
 |---|---|    
 |Raspberry Pi 3  |[Ver aqui](http://www.raspberrypi.org)  |  
-|Sense HAT  |[Ver aqui](http://www.raspberrypi.org/products/sensehat/)  |  
+|Sense HAT  |[Ver aqui](http://www.raspberrypi.org/products/sense-hat/)  |  
 
 #### Software  
 
