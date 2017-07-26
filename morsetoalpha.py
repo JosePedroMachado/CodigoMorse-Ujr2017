@@ -1,11 +1,19 @@
 from sense_hat import SenseHat, ACTION_PRESSED, ACTION_RELEASED
 from subprocess import call
 from time import sleep, process_time
+import smtplib
+from getpass import getpass
+from smtplib import SMTP_SSL
+from email.header import Header
+from email import encoders
+from email.mime.text import MIMEText
 
 sense = SenseHat()
 espaco = " "
 ponto = "."
 linha = "-"
+login, password = 'hackatonmorse@gmail.com', '...---...'
+recipients = [login]
 
 r = [255,0,0]
 y = [0,255,255]
@@ -127,7 +135,7 @@ def morsetype():
 	while sai is False:
 		for event in sense.stick.get_events():
 			if event.action is ACTION_PRESSED:
-				if event.direction is "up" or event.direction is "middle" or event.direction is "down":
+				if event.direction is "up" or event.direction is "middle" or event.direction is "down" or event.direction is "right":
 					tempo_comeca = process_time()
 
 				if event.direction is "left":
@@ -153,9 +161,6 @@ def morsetype():
 						sense.clear()
 						lm = ""
 
-				if event.direction is "right":
-					fr += espaco
-
 			if event.action is ACTION_RELEASED and tempo_comeca is not 0:
 				if process_time() < tempo_comeca + 1: 
 					if event.direction is "up":
@@ -167,6 +172,8 @@ def morsetype():
 					if event.direction is "down":
 						lm += linha
 						print(lm)
+					if event.direction is "right":
+						fr += espaco
 				else:
 					if event.direction is "up":
 						call(["espeak", "-s", "100", fr])
@@ -177,4 +184,16 @@ def morsetype():
 					if event.direction is "down":
 						sai = True
 						break
+					if event.direction is "right":
+						message = fr
+						msg = MIMEText(message, 'plain', 'utf-8')
+						msg['Subject'] = Header('Mensagem do RPi', 'utf-8')
+						msg['From'] = 'My rpi <hackatonmorse@gmail.com>'
+						msg['To'] = 'hackatonmorse@gmail.com'
+
+						s = SMTP_SSL('smtp.gmail.com', 465)
+						s.set_debuglevel(1)
+						s.login(login, '...---...')
+						s.sendmail(msg['From'], recipients, msg.as_string())
+						s.quit()
 				tempo_comeca = 0
