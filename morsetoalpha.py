@@ -126,6 +126,7 @@ morse = {
 def morsetype():
 	lm = ""
 	fr = ""
+	historico=""
 	tempo_comeca = 0
 	sai = False
 
@@ -165,7 +166,10 @@ def morsetype():
 				if process_time() < tempo_comeca + 1: 
 					if event.direction is "up":
 						print(fr)
+						historico += fr
 						sense.show_message(fr, scroll_speed = 0.04)
+						with open('history.txt', 'a') as f:
+							f.write(historico +"\n")
 					if event.direction is "middle":
 						lm += ponto
 						print(lm)
@@ -197,3 +201,5 @@ def morsetype():
 						s.sendmail(msg['From'], recipients, msg.as_string())
 						s.quit()
 				tempo_comeca = 0
+
+

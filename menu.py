@@ -1,11 +1,13 @@
 from sense_hat import SenseHat, ACTION_PRESSED, ACTION_HELD
+from subprocess import Popen
 from vk import *
 from morsetoalpha import *
 
+historico = '/home/pi/history.txt'
 sense = SenseHat()
 
-menuentries = ["T", "M", "S"]
-menuentrieslong = ["Teclado", "Morse", "Sair"]
+menuentries = ["T", "M", "S","H"]
+menuentrieslong = ["Teclado", "Morse", "Sair","Historico"]
 
 def next(cursor, event):
 	return False, cursor + 1
@@ -14,6 +16,7 @@ def prev(cursor, event):
 
 def select(cursor, event):
 	quit = False
+	file = None
 
 	if event.action is ACTION_PRESSED:
 		sense.clear()
@@ -23,15 +26,21 @@ def select(cursor, event):
 			morsetype()
 		if cursor % len(menuentries) is 2:
 			quit = True
+		if cursor % len(menuentries) is 3:
+			Popen(["leafpad", historico])
+			#file = open(historico,'r')
+			#sense.show_message(file.read(), scroll_speed = 0.04)
+			#print(file.read())
+			#file.close()
 
 	return quit, cursor
 
 menuact = {
-	  "left"   : prev
-	, "right"  : next
-	, "up"     : prev
-	, "down"   : next
-	, "middle" : select }
+	"left": prev,
+	"right": next,
+	"up": prev,
+	"down": next,
+	"middle": select}
 
 def menu():
 	cursor = 0
