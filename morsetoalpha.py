@@ -238,4 +238,3 @@ def morsetype():
 
 				tempo_comeca = 0
 
-morsetype()
